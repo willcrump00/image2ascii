@@ -1,8 +1,9 @@
 clc
-clear
-close all
+close
+clear all
 %input the name of the image here
-x = imread('uofu.png');
+imagename = "byu.png";
+x = imread(imagename);
 a = size(x,1);
 b = size(x,2);
 c = size(x,3);
@@ -28,7 +29,7 @@ for i = 1:a
         %2 = white 1 = gray 0 = black
         if xg(i,j) >= 200 
             xn(i,j) = 2;
-        elseif xg(i,j) > 100 && xg(i,j) < 200
+        elseif xg(i,j) > 25 && xg(i,j) < 200
             xn(i,j) = 1;
         else 
             xn(i,j) = 0;
@@ -40,21 +41,16 @@ for i = 1:a
     for j = 1:b 
         %pathing only occurs within frame
         if i < a && j < b && i>1 && j>1
-            %horizontal paths
+            %horizontal paths (black)
             if xn(i,j) == xn(i,j+1) && xn(i,j) ==0
-                    xa(i,j:j+1) = '-'; 
+                    xa(i,j:j+1) = '='; 
+            %horizontal paths (grey)
+            elseif xn(i,j) == xn(i,j+1) && xn(i,j) == 1
+                xa(i,j:j+1) = '-';
             %vertical paths
             elseif xn(i,j) == xn(i+1,j) && xn(i,j) ==0
                     xa(i,j) = '|';
-                    xa(i+1,j) = '|';
-            %downward right diagonal
-            elseif xn(i,j) == xn(i+1,j+1) && xn(i,j) ==0
-                    xa(i,j) = '\\';
-                    xa(i+1,j+1) = '\\';          
-            % downward left diagonal
-            elseif xn(i,j) == xn(i+1, j -1) && xn(i,j) ==0
-                xa(i,j) = '/';
-                xa(i+1, j-1) = '/';
+                    xa(i+1,j) = '|';         
             %else color white
             else
                 xa(i,j) = ' ';
